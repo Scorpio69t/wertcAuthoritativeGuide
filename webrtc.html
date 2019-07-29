@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html"; charset="UTF-8" />
+	<style>
+		video {
+			width: 320px;
+			height: 240px;
+			border: 1px solid black;
+		}
+		div {
+			display: inline-block;
+		}
+	</style>
+</head>
+<body>
+
+<!-- 加载polyfill，先加载本地副本以进行本地测试 -->
+<script src="extra/adapter.js" type="text/javascript"></script>
+<script 
+	src="https://webrtc.github.io/adapter/adapter.js" type="text/javascript"></script>
+
+<script>
+	var myVideoStream, myVideo;
+
+	//这是主例程
+	
+	//由此开始获取本地媒体
+	window.onload = function () {
+		myVideo = document.getElementById("myVideo");
+		getMedia();
+	};
+
+	//接下来的这一节代码用于获取本地媒体
+	function getMedia() {
+		getUserMedia({"audio":true, "video":true},
+					gotUserMedia, didntGetUserMedia);
+	}
+
+	function gotUserMedia (stream) {
+		myVideoStream = stream;
+		//向我显示我的本地视频
+		attachMediaStream(myVideo, myVideoStream);
+	}
+
+	function didntGetUserMedia () {
+		console.log("couldn't get video");
+	}
+
+</script>
+<div id="setup">
+	<p>WebRTC Book Demo (local media only)</p>
+</div>
+
+<br/>
+
+<div style="width: 30%;vertical-align:top">
+	<div>
+		<video id="myVideo" autoplay="autoplay" controls muted="true"/>
+	</div>
+</div>	
+</body>
+</html>
